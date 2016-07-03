@@ -1,33 +1,14 @@
 require "trequester/version"
+require 'trequester'
 require 'httparty'
 
 module Trequester
-  class Request
-    include HTTParty
-    #initialized the base URL,
-    #Since we are including the HTTParty module the base_uri method is available as a method on the eigen class
-    def initialize(root_endpoint)
-      @root_endpoint = root_endpoint
-      self.class.base_uri(root_endpoint)
-    end
-
-    #To be used primarily for get requests
-    def fetch(rest_of_the_url)
-      request :get, "#{@root_endpoint}#{@entity_name}/#{rest_of_the_url}"
-    end
-
-    def post(rest_of_the_url, data)
-      request :get, "#{@root_endpoint}#{@entity_name}/#{rest_of_the_url}", data
-    end
-
-    #make the actual request
-    def request(method, url, data = {})
-      case method
-        when :get || :post
-          self.class.send(method, url, query: data)
-        else
-          raise 'Not a valid method'
-      end
-    end
+  class << self
+    attr_accessor :auth
   end
+
+  def self.setup(key_id, key_secret)
+    self.auth = { username: key_id, password: key_secret }
+  end
+
 end
