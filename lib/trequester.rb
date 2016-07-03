@@ -16,9 +16,18 @@ module Trequester
       request :get, "#{@root_endpoint}#{@entity_name}/#{rest_of_the_url}"
     end
 
+    def post(rest_of_the_url, data)
+      request :get, "#{@root_endpoint}#{@entity_name}/#{rest_of_the_url}", data
+    end
+
     #make the actual request
     def request(method, url, data = {})
-      self.class.send(method, url, query: data)
+      case method
+        when :get || :post
+          self.class.send(method, url, query: data)
+        else
+          raise 'Not a valid method'
+      end
     end
   end
 end
