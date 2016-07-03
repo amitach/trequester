@@ -1,6 +1,6 @@
 require 'httparty'
 require '../trequester/version'
-require '../trequester/trequester'
+require '../trequester'
 
 module Trequester
   class Request
